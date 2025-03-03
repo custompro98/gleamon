@@ -7,7 +7,7 @@ import gleam/string
 import gleam/string_tree
 import lustre/element
 import lustre/element/html.{
-  body, h1, head, html, table, tbody, td, th, title, tr, text
+  body, h1, head, html, table, tbody, td, text, th, title, tr,
 }
 import wisp.{type Response}
 import wisp/internal
@@ -42,10 +42,7 @@ fn page(pokemon: pokedex.Pokemon) -> string_tree.StringTree {
       h1([], [text(pokemon.name)]),
       table([], [
         tbody([], [
-          tr([], [
-            th([], [text("Species")]),
-            td([], [text(pokemon.species)]),
-          ]),
+          tr([], [th([], [text("Species")]), td([], [text(pokemon.species)])]),
           tr([], [
             th([], [text("Description")]),
             td([], [text(pokemon.description)]),

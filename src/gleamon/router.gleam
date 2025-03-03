@@ -1,6 +1,6 @@
-import pages/pokemon
 import gleamon/web
 import pages/home
+import pages/pokemon
 import pages/pokemons
 import wisp.{type Request, type Response}
 
@@ -13,7 +13,7 @@ pub fn handle_request(req: Request) -> Response {
   case wisp.path_segments(req) {
     [] -> home.handler(req)
     ["pokemon"] -> pokemons.handler(req)
-    ["pokemon", id] ->  pokemon.handler(req, id)
+    ["pokemon", id] -> pokemon.handler(req, id)
     _ -> wisp.not_found()
   }
 }

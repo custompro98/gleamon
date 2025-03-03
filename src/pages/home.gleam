@@ -2,7 +2,7 @@ import gleam/http
 import gleam/http/request.{type Request}
 import gleam/string_tree
 import lustre/element
-import lustre/element/html.{html, head, body, title, h1, text}
+import lustre/element/html.{body, h1, head, html, text, title}
 import wisp.{type Response}
 import wisp/internal
 
@@ -19,10 +19,7 @@ fn get(_req: Request(internal.Connection)) -> Response {
 }
 
 fn page() -> string_tree.StringTree {
-  html([], [
-    head([], [title([], "Home")]),
-    body([], [h1([], [text("Home")])]),
-  ])
+  html([], [head([], [title([], "Home")]), body([], [h1([], [text("Home")])])])
   |> element.to_document_string
   |> string_tree.from_string
 }
