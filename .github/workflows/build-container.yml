@@ -16,7 +16,7 @@ jobs:
         run: docker build . --file Dockerfile --tag webapp
 
       - name: Log in to registry
-        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u $ --password-stdin
+        run: echo "${{secrets.GITHUB_TOKEN}}" | docker login ghcr.io -u $ --password-stdin
 
       - name: Push image
         run: |
