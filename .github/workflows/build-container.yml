@@ -22,6 +22,6 @@ jobs:
       - name: Push image
         run: |
           IMAGE_ID=ghcr.io/custompro98/gleamon
-          IMAGE_ID="$IMAGE_ID":$(echo "${{github.ref}}" | sed -e 's,.*/\(.*\),\1,')
+          IMAGE_ID="$IMAGE_ID:${{github.ref}}"
           docker tag webapp $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
