@@ -2,6 +2,7 @@ name: Build container image
 on:
   push:
     tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   push:
@@ -21,6 +22,6 @@ jobs:
       - name: Push image
         run: |
           IMAGE_ID=ghcr.io/custompro98/gleamon
-          IMAGE_ID="$IMAGE_ID":$(echo "$" | sed -e 's,.*/\(.*\),\1,')
+          IMAGE_ID="$IMAGE_ID":$(echo "${{github.ref}}" | sed -e 's,.*/\(.*\),\1,')
           docker tag webapp $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
