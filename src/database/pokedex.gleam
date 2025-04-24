@@ -16,6 +16,22 @@ pub type Pokemon {
   )
 }
 
+fn pokemon_decoder() -> decode.Decoder(Pokemon) {
+  use id <- decode.field("id", decode.int)
+  use name <- decode.field("name", decode.dict(decode.string, decode.string))
+  use species <- decode.field("species", decode.string)
+  use description <- decode.field("description", decode.string)
+  use types <- decode.field("type", decode.list(decode.string))
+
+  let assert Ok(name) = dict.get(name, "english")
+
+  decode.success(Pokemon(id:, name:, species:, description:, types:))
+}
+
+fn pokemon_list_decoder(str: String) {
+  json.parse(from: str, using: decode.list(pokemon_decoder()))
+}
+
 pub fn search(query: String, limit: Int) -> List(Pokemon) {
   load()
   |> list.filter(fn(pokemon) {
@@ -33,24 +49,7 @@ pub fn get(query: Int) -> option.Option(Pokemon) {
 
 fn load() -> List(Pokemon) {
   let assert Ok(file) = simplifile.read("./pokedex.json")
-  let assert Ok(pokemon) = decode(file)
+  let assert Ok(pokemon) = pokemon_list_decoder(file)
 
   pokemon
-}
-
-fn decode(str: String) -> Result(List(Pokemon), json.DecodeError) {
-  let pokemon_decoder = {
-    // Core information
-    use id <- decode.field("id", decode.int)
-    use names <- decode.field("name", decode.dict(decode.string, decode.string))
-    use species <- decode.field("species", decode.string)
-    use description <- decode.field("description", decode.string)
-    use types <- decode.field("type", decode.list(decode.string))
-
-    let assert Ok(name) = dict.get(names, "english")
-
-    decode.success(Pokemon(id, name, species, description, types))
-  }
-
-  json.parse(from: str, using: decode.list(pokemon_decoder))
 }
